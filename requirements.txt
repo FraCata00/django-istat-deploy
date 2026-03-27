@@ -1,7 +1,8 @@
 # Core
 django>=4.2,<5.2
 djangorestframework>=3.14
-django-istat-italian-places  # la tua app da PyPI
+django-istat-italian-places
+django-filter
 
 # DB + URL parsing
 psycopg[binary]>=3.1
