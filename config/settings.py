@@ -13,8 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------------------------------------------------------------------------
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "false").lower() == "true"
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
-
+ALLOWED_HOSTS = [h for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -30,7 +29,11 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -41,6 +44,7 @@ import dj_database_url  # noqa: E402
 DATABASES = {
     "default": dj_database_url.config(
         env="DATABASE_URL",
+        default="sqlite:///db.sqlite3",
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -57,7 +61,7 @@ REST_FRAMEWORK = {
         "anon": os.environ.get("THROTTLE_ANON_RATE", "200/hour"),
     },
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": "50",
+    "PAGE_SIZE": 50,
 }
 
 STATIC_URL = "/static/"
