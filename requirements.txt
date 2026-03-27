@@ -3,6 +3,7 @@ django>=4.2,<5.2
 djangorestframework>=3.14
 django-istat-italian-places
 django-filter
+requests
 
 # DB + URL parsing
 psycopg[binary]>=3.1
