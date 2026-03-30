@@ -5,7 +5,6 @@ django-istat-italian-places
 django-filter
 requests
 ipython
-django-extensions
 drf-spectacular
 
 # DB + URL parsing
