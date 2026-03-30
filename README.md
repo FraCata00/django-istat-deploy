@@ -1,65 +1,71 @@
-# django-istat-deploy
+# 🚀 Django ISTAT Deployment
 
-Wrapper Django pronto per il cloud che espone `django-istat-italian-places`
-come public REST API, deployato su **Koyeb** con CI via GitHub Actions.
+Production-ready deployment setup for the **Django ISTAT Italian Places** project.
 
-## Endpoint
+---
 
-| Endpoint | Descrizione |
-|---|---|
-| `GET /health/` | Healthcheck |
-| `GET /comuni-italiani/` | Indice API |
-| `GET /comuni-italiani/regioni/` | Elenco regioni |
-| `GET /comuni-italiani/province/` | Elenco province |
-| `GET /comuni-italiani/comuni/` | Elenco comuni (paginato) |
+## 📌 Overview
 
-## Setup locale
+This repository contains the configuration and setup required to deploy the Django ISTAT backend in a production-like environment.
+
+It focuses on:
+
+- Containerization  
+- Environment configuration  
+- Deployment workflow  
+
+---
+
+## 🧠 Tech Stack
+
+- Docker  
+- Docker Compose  
+- PostgreSQL  
+- Django  
+
+---
+
+## 🐳 Services
+
+The system is composed of:
+
+- **web** → Django application  
+- **db** → PostgreSQL database  
+
+---
+
+## ⚙️ Setup & Run
 
 ```bash
-git clone https://github.com/TUO_USER/django-istat-deploy
+git clone https://github.com/FraCata00/django-istat-deploy.git
 cd django-istat-deploy
-docker compose up --build -d
-docker compose exec web python manage.py migrate
-docker compose exec web python manage.py import_istat_data --force
+
+cp .env.example .env
+
+docker-compose up --build
 ```
 
-L'API è disponibile su http://localhost:8000.
+---
 
-## Deploy su Koyeb
+## 🔐 Environment Variables
 
-### 1. Crea il database
+Create a .env file:
 
-Nel [Koyeb dashboard](https://app.koyeb.com):
-**Databases → Create Database Service** → regione Frankfurt consigliata.
-Copia la `DATABASE_URL` fornita.
+```env
+DEBUG=False
+SECRET_KEY=your_secret_key
+POSTGRES_DB=istat_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+```
 
-### 2. Crea il web service
+---
 
-**Services → Create Web Service → GitHub** → seleziona questo repo.
+## 📡 Application Access
 
-| Campo | Valore |
-|---|---|
-| Builder | Dockerfile |
-| Branch | `main` |
-| Port | `8000` |
-| Health check path | `/health/` |
-| Run command | `sh -c "python manage.py migrate --noinput && python manage.py import_istat_data --force && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120"` |
+- API: http://localhost:8000/comuni-italiani/
+- Admin: http://localhost:8000/admin
 
-### 3. Environment variables
+---
 
-| Variabile | Valore |
-|---|---|
-| `DJANGO_SECRET_KEY` | `python -c "import secrets; print(secrets.token_urlsafe(50))"` |
-| `DATABASE_URL` | stringa copiata dal DB Koyeb |
-| `ALLOWED_HOSTS` | `.koyeb.app` |
-
-### 4. CI/CD
-
-Koyeb rideploya automaticamente ad ogni push su `main`.
-Il workflow CI su GitHub Actions fa lint + Docker build check prima.
-
-## Throttling
-
-Rate limiting via DRF `AnonRateThrottle`.
-Formato `THROTTLE_ANON_RATE`: `N/second|minute|hour|day`.
-Risposta al limite: `429 Too Many Requests` + header `Retry-After`.
+>Main project: https://github.com/FraCata00/django-istat-italian-places
