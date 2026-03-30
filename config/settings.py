@@ -46,7 +46,7 @@ DATABASES = {
     "default": dj_database_url.config(
         env="DATABASE_URL",
         default="sqlite:///db.sqlite3",
-        conn_max_age=600,
+        conn_max_age=60,
         conn_health_checks=True,
     )
 }
@@ -61,8 +61,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": os.environ.get("THROTTLE_ANON_RATE", "200/hour"),
     },
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 50,
+    "DEFAULT_PAGINATION_CLASS": "config.pagination.StandardPagination",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -105,6 +104,12 @@ USE_I18N = True
 USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
 
 
 if not DEBUG:
