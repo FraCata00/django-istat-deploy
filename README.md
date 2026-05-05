@@ -10,18 +10,18 @@ This repository contains the configuration and setup required to deploy the Djan
 
 It focuses on:
 
-- Containerization  
-- Environment configuration  
-- Deployment workflow  
+- Containerization
+- Environment configuration
+- Deployment workflow
 
 ---
 
 ## 🧠 Tech Stack
 
-- Docker  
-- Docker Compose  
-- PostgreSQL  
-- Django  
+- Docker
+- Docker Compose
+- PostgreSQL
+- Django
 
 ---
 
@@ -29,8 +29,8 @@ It focuses on:
 
 The system is composed of:
 
-- **web** → Django application  
-- **db** → PostgreSQL database  
+- **web** → Django application
+- **db** → PostgreSQL database
 
 ---
 
@@ -63,7 +63,7 @@ POSTGRES_PASSWORD=postgres
 
 ## 📡 Application Access
 
-- API: http://localhost:8000/comuni-italiani/
+- API: http://localhost:8000/comuni_italiani/
 - Admin: http://localhost:8000/admin
 
 ---

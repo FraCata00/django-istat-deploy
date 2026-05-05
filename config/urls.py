@@ -20,7 +20,7 @@ class HealthCheckView(APIView):
 
 urlpatterns = [
     path("health/", HealthCheckView.as_view()),
-    path("comuni-italiani/", include("comuni_italiani.urls")),
+    path("comuni_italiani/", include("comuni_italiani.urls")),
     path(
         "api/schema/",
         SpectacularAPIView.as_view(),
